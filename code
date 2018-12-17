@@ -1,0 +1,74 @@
+
+float start = random(0, 10);
+float t;
+color slate = color(122, 139, 153);
+color violet = color(95, 0, 186);
+color apricot = color(255, 201, 181);
+color corn_blue = color(146, 220, 229);
+color purple_taupe = color(74, 49, 77);
+color granny_green = color(172, 232, 148);
+color raspberry = color(246, 16, 103);
+color verdigris = color(72, 169, 166);
+
+
+void setup() {
+  background(30);
+  size(800, 800);
+}
+
+void draw() {
+  noStroke();
+  float num = 15;
+  float winc = width / (num + 1);
+  float hinc = height / (num + 1);
+  float w, h = 0;
+  color[] pal1 = makePalette(granny_green, corn_blue, int(num));
+  color[] pal2 = makePalette(raspberry, violet, int(num));
+  
+  for (int i=0; i <= num; i++) {
+    w = 0;
+    color[] rowPal = makePalette(pal1[i],pal2[i], int(num));
+    for (int j = 0; j <= num; j++) {
+      fill(rowPal[j]);
+      rect(w,h,winc, winc);
+      w += winc;
+    }
+    //fill(pal2[i]);
+    //rect(0,h,hinc,hinc);
+    h += hinc;
+  }
+
+}
+
+// need this to return an array of specified size, comprised of
+// color objects that gradually shift the colors from col1 to col 2, 
+color[] makePalette(color start, color end, int num) {
+  
+  color[] palette = new color[num + 1];
+  
+  // variables that map the change in current r, g, b values
+  float rdt = (red(start) - red(end)) / num;
+  // println(rdt);
+  float gdt = (green(start) - green(end)) / num;
+  // println(gdt);
+  float bdt = (blue(start) - blue(end)) / num;
+  // println(bdt);
+  
+  float r = red(start);
+  float g = green(start);
+  float b = blue(start);
+  
+  palette[0] = start;
+  for (int i = 1; i <= num; i++) {
+    palette[i] = color(r - rdt, g - gdt, b - bdt);
+    // println("red = " + red(palette[i]) + ", green = " + green(palette[i]) + ", blue = " + blue(palette[i]));
+    r = r - rdt;
+    g = g - gdt;
+    b = b - bdt;
+  }
+  return palette;
+}
+
+
+
+
